@@ -1,0 +1,3 @@
+def add_msciStock(self, token,instrument_id,
+                  int_index, draft_infolw_amount,liquidity_level,
+                  position_cahnge_date,key_point_flg):
