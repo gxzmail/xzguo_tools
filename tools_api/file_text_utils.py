@@ -11,7 +11,7 @@ class FileTextUtils(object):
         self.file_encode = file_encode
     '''
     transfer 
-    def function(self, param1, param2,..
+    def function(self, token, param1, param2,..
                     param3,....
                     ....
                     paramN):
@@ -21,30 +21,29 @@ class FileTextUtils(object):
     ...
     paramN: "paramN"
     '''
-    def wangyang(self):
+    def format_request_body(self):
         with open(self.file_name, self.file_mode, encoding = \
                 self.file_encode) as texter:
             list = texter.readlines()
-        for line_context in list:
-            function_prototype = str.join(line_context)
+        function_prototype = ''.join(list)
+        function_prototype = function_prototype.replace('\n', '')
+        function_prototype = function_prototype.replace(' ', '')
         param_one_line = function_prototype.split('(')[1].split(')')[0]
-        self.oneline_2_multilines(param_one_line, ',')
-        #     print("the line is :%s" %line_context)
+        param_list = param_one_line.split(',')
+        if param_list[0] == 'self':
+            param_list = param_list[1:]
+        if param_list[0] == 'token':
+            param_list = param_list[1:]
+        for param in param_list[:-1]:
+            print("'%s': %s," %(param, param))
+        print("'%s': %s" %(param_list[-1], param_list[-1]))
         return
-
-    def oneline_2_multilines(self, oneLine, splitor):
-
-
-
-
 
 
 
 def debug():
-    # print("-----%s\n%s\n" %(path.abspath(__file__),
-    #                      path.dirname( path.abspath(__file__))))
     util = FileTextUtils(file_path + r"\a.txt", "r")
-    util.wangyang()
+    util.format_request_body()
     return
 
 
