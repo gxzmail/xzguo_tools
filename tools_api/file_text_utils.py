@@ -21,29 +21,43 @@ class FileTextUtils(object):
     ...
     paramN: "paramN"
     '''
-    def format_request_body(self):
+    def format_wayang_type(self):
         with open(self.file_name, self.file_mode, encoding = \
                 self.file_encode) as texter:
             list = texter.readlines()
+        for line in list:
+            if 'def' in line:
+                self._format_request_body(list)
+                break
+            elif ':' in line:
+                self._format_request_content(list)
+                break
+
+
+    def _format_request_body(self, list):
         function_prototype = ''.join(list)
         function_prototype = function_prototype.replace('\n', '')
         function_prototype = function_prototype.replace(' ', '')
-        param_one_line = function_prototype.split('(')[1].split(')')[0]
+        if ')' in function_prototype:
+            param_one_line = function_prototype.split('(')[1].split(')')[0]
+        else:
+            param_one_line = function_prototype.split('(')[1]
         param_list = param_one_line.split(',')
         if param_list[0] == 'self':
             param_list = param_list[1:]
         if param_list[0] == 'token':
             param_list = param_list[1:]
         for param in param_list[:-1]:
-            print("'%s': %s," %(param, param))
-        print("'%s': %s" %(param_list[-1], param_list[-1]))
+            print("'%s': %s," % (param, param))
+        print("'%s': %s" % (param_list[-1], param_list[-1]))
         return
 
-
+    def _format_request_content(list):
+        pass
 
 def debug():
     util = FileTextUtils(file_path + r"\a.txt", "r")
-    util.format_request_body()
+    util.format_wayang_type()
     return
 
 
